@@ -1,0 +1,252 @@
+```html
+<!DOCTYPE html>
+<html lang="te">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>శ్రీవల్లి - నా అనంతమైన విశ్వం ✨💖</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,600;1,400&family=Noto+Sans+Telugu:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', 'Noto Sans Telugu', sans-serif;
+            background-color: #06010d;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+        .font-serif-romantic {
+            font-family: 'Playfair Display', 'Lora', serif;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(236, 72, 153, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(236, 72, 153, 0.15);
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #06010d;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ec4899;
+            border-radius: 10px;
+        }
+        .passcode-dot {
+            transition: all 0.2s ease;
+        }
+        .passcode-dot.active {
+            background-color: #ec4899;
+            transform: scale(1.2);
+            box-shadow: 0 0 10px #ec4899;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .spinning {
+            animation: spin 14s linear infinite;
+        }
+        .tonearm {
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: 24px 24px;
+        }
+        .tonearm.active {
+            transform: rotate(26deg);
+        }
+    </style>
+</head>
+<body class="relative min-h-screen pb-24 selection:bg-pink-500 selection:text-white">
+
+    <!-- Ambient Space Background Animation -->
+    <canvas id="ambientCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- MAIN APP WRAPPER -->
+    <div class="relative z-10 max-w-5xl mx-auto px-4 md:px-6 pt-6">
+
+        <!-- HEADER SECTION -->
+        <header class="flex justify-between items-center py-4 px-6 glass-card rounded-2xl shadow-xl mb-10">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-violet-600 to-pink-500 flex items-center justify-center shadow-lg">
+                    <i class="fas fa-heart text-white text-base animate-pulse"></i>
+                </div>
+                <div>
+                    <h1 class="text-sm font-extrabold tracking-wider text-pink-400 uppercase">Srivalli.Cosmic</h1>
+                    <p class="text-[9px] text-slate-400 tracking-widest uppercase">Est. 9th Class • Our Story</p>
+                </div>
+            </div>
+            <button onclick="openCustomizer()" class="flex items-center gap-2 px-4 py-2 bg-pink-500/10 border border-pink-500/20 text-pink-300 rounded-xl text-xs font-bold hover:bg-pink-500/20 transition-all">
+                <i class="fas fa-sliders-h"></i> గ్యాలరీ అప్‌లోడర్
+            </button>
+        </header>
+
+        <!-- PASSCODE LOCK SCREEN -->
+        <section id="lockScreen" class="glass-card rounded-3xl p-8 border border-white/10 shadow-2xl text-center max-w-md mx-auto relative overflow-hidden transition-all duration-700">
+            <div class="mb-6">
+                <!-- Polaroid styled round frame of Srivalli -->
+                <div class="w-24 h-24 rounded-full mx-auto overflow-hidden border-2 border-pink-500/40 p-1 shadow-xl">
+                    <img id="lockProfile" src="1000102998.jpg" onerror="this.src='https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500'" alt="Srivalli" class="w-full h-full object-cover rounded-full">
+                </div>
+            </div>
+            <h2 class="text-xl font-bold text-pink-300 mb-1">శ్రీవల్లి యూనివర్స్ 🔐</h2>
+            <p class="text-xs text-slate-400 mb-8">మన లవ్ యానివర్సరీ డేట్‌ను ఎంటర్ చేయండి<br><span class="text-pink-400/60 font-semibold">(హింట్: 0902)</span></p>
+
+            <!-- Passcode Indicators -->
+            <div class="flex justify-center gap-4 mb-8">
+                <div class="w-4 h-4 rounded-full border-2 border-pink-500/30 passcode-dot" id="dot-1"></div>
+                <div class="w-4 h-4 rounded-full border-2 border-pink-500/30 passcode-dot" id="dot-2"></div>
+                <div class="w-4 h-4 rounded-full border-2 border-pink-500/30 passcode-dot" id="dot-3"></div>
+                <div class="w-4 h-4 rounded-full border-2 border-pink-500/30 passcode-dot" id="dot-4"></div>
+            </div>
+
+            <!-- iOS keypad -->
+            <div class="grid grid-cols-3 gap-4 max-w-[280px] mx-auto">
+                <button onclick="pressKey('1')" class="w-14 h-14 rounded-full bg-white/5 border border-white/10 text-xl font-semibold flex items-center justify-center hover:bg-white/20 active:scale-95 transition-all">1</button>
+                <button onclick="pressKey('2')" class="w-14 h-14 rounded-full bg-white/5 border border-white/10 text-xl font-semibold flex items-center justify-center hover:bg-white/20 active:scale-95 transition-all">2</button>
+                <button onclick="pressKey('3')" class="w-14 h-14 rounded-full bg-white/5 border border-white/10 text-xl font-semibold flex items-center justify-center hover:bg-white/20 active:scale-95 transition-all">3</button>
+                <button onclick="pressKey('4')" class="w-14 h-14 rounded-full bg-white/5 border border-white/10 text-xl font-semibold flex items-center justify-center hover:bg-white/20 active:scale-95 transition-all">4</button>
+                <button onclick="pressKey('5')" class="w-14 h-14 rounded-full bg-white/5 border border-white/10 text-xl font-semibold flex items-center justify-center hover:bg-white/20 active:scale-95 transition-all">5</button>
+                <button onclick="pressKey('6')" class="w-14 h-14 rounded-full bg-white/5 border border-white/10 text-xl font-semibold flex items-center justify-center hover:bg-white/20 active:scale-95 transition-all">6</button>
+                <button onclick="pressKey('7')" class="w-14 h-14 rounded-full bg-white/5 border border-white/10 text-xl font-semibold flex items-center justify-center hover:bg-white/20 active:scale-95 transition-all">7</button>
+                <button onclick="pressKey('8')" class="w-14 h-14 rounded-full bg-white/5 border border-white/10 text-xl font-semibold flex items-center justify-center hover:bg-white/20 active:scale-95 transition-all">8</button>
+                <button onclick="pressKey('9')" class="w-14 h-14 rounded-full bg-white/5 border border-white/10 text-xl font-semibold flex items-center justify-center hover:bg-white/20 active:scale-95 transition-all">9</button>
+                <button onclick="clearKeys()" class="text-xs text-slate-400 font-semibold flex items-center justify-center">CLEAR</button>
+                <button onclick="pressKey('0')" class="w-14 h-14 rounded-full bg-white/5 border border-white/10 text-xl font-semibold flex items-center justify-center hover:bg-white/20 active:scale-95 transition-all">0</button>
+                <button onclick="bypassLock()" class="text-xs text-pink-400 font-bold flex items-center justify-center">BYPASS</button>
+            </div>
+            <p id="lockFeedback" class="text-xs text-rose-500 font-semibold mt-4 h-4"></p>
+        </section>
+
+        <!-- UNLOCKED APP LAYOUT -->
+        <div id="appLayer" class="hidden space-y-12 transition-opacity duration-1000 opacity-0">
+
+            <!-- HERO REVEAL SPOTIFY CARD -->
+            <section class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-pink-950/40 via-violet-950/20 to-black p-8 border border-white/5 shadow-2xl">
+                <div class="absolute -top-32 -right-32 w-64 h-64 bg-pink-500/10 rounded-full blur-3xl"></div>
+                <div class="flex flex-col md:flex-row gap-8 items-center relative z-10">
+                    <div class="w-48 h-48 md:w-56 md:h-56 rounded-2xl overflow-hidden shadow-2xl border-2 border-pink-500/20 flex-shrink-0 animate-pulse" style="animation-duration: 3s">
+                        <img id="mainHeroCover" src="1000104153.jpg" onerror="this.src='https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=500'" alt="Our Album" class="w-full h-full object-cover">
+                    </div>
+                    <div class="text-center md:text-left flex-1">
+                        <span class="text-xs font-bold text-pink-400 uppercase tracking-widest"><i class="fas fa-record-vinyl mr-1"></i> Special Birthday Album</span>
+                        <h2 class="text-3xl md:text-5xl font-extrabold text-white mt-2 leading-tight">నా ప్రాణానికి ఊపిరి శ్రీవల్లి 💖</h2>
+                        <p class="text-sm text-slate-300 mt-3 italic leading-relaxed">
+                            "బంగారం, నువ్వు నా ప్రపంచం. మన ప్రయాణం నా నిశ్శబ్ద ప్రపంచంలోకి తెచ్చిన కాంతి ప్రయాణం ఇది."
+                        </p>
+                        <div class="mt-6 flex flex-wrap justify-center md:justify-start gap-3">
+                            <span class="px-4 py-2 bg-pink-600 text-white rounded-full text-xs font-bold shadow-lg animate-bounce">🎂 Happiest Birthday My Cute Lovely Monkey!</span>
+                            <span class="px-4 py-2 bg-white/5 border border-white/10 text-pink-300 rounded-full text-xs font-semibold">జూన్ 11 - 2002 • బంగారం పుట్టినరోజు</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- COZY DETAILED LOVE STORY SECTION -->
+            <section class="glass-card rounded-3xl p-6 md:p-8 border border-white/5 relative">
+                <div class="absolute top-4 right-6 text-pink-500/20 text-5xl"><i class="fas fa-book-open"></i></div>
+                <h2 class="text-2xl font-extrabold text-pink-400 mb-6 flex items-center gap-2">
+                    <i class="fas fa-feather-alt text-lg"></i> మన ప్రేమ కథ: ఒక అందమైన ప్రయాణం
+                </h2>
+
+                <div class="space-y-8">
+                    <!-- Chapter 1 -->
+                    <div class="p-5 rounded-2xl bg-white/5 border border-white/5 hover:border-pink-500/20 transition-colors">
+                        <span class="text-[10px] font-bold text-pink-400 uppercase tracking-widest block mb-2">అధ్యాయం 1: మొదటి పరిచయం – నిశ్శబ్ద ప్రపంచంలోకి ఒక వెలుగు</span>
+                        <p class="text-sm text-slate-200 leading-relaxed text-justify">
+                            నాకు అప్పుడప్పుడే లోకం తెలియడం మొదలైన రోజులు అవి. నా తొమ్మిదో తరగతి చివర్లో, ఫేస్‌బుక్‌లో మా మ్యూచువల్ ఫ్రెండ్ (ఆమె చిన్నప్పటి స్నేహితురాలు) ద్వారా నీ పరిచయం అయింది. అంతకుముందు నా ప్రపంచం చాలా చిన్నది.. కేవలం స్కూల్, చదువు తప్ప పెద్దగా ఎవరితో మాట్లాడేవాడిని కాదు, ఎమోషన్స్ అంటే ఏంటో కూడా సరిగ్గా తెలియదు. కానీ నీతో మాట్లాడటం మొదలుపెట్టాక, నా నిశ్శబ్ద ప్రపంచంలోకి ఒక కొత్త వెలుగు వచ్చినట్లు అనిపించింది.
+                        </p>
+                    </div>
+
+                    <!-- Chapter 2 -->
+                    <div class="p-5 rounded-2xl bg-white/5 border border-white/5 hover:border-pink-500/20 transition-colors">
+                        <span class="text-[10px] font-bold text-pink-400 uppercase tracking-widest block mb-2">అధ్యాయం 2: కన్నీళ్లలో తోడుగా – నువ్వు ఇచ్చిన ఓదార్పు</span>
+                        <p class="text-sm text-slate-200 leading-relaxed text-justify">
+                            మనం కలుసుకున్న కొత్తలోనే నా జీవితంలో ఒక పెద్ద విషాదం జరిగింది. నా ప్రాణ స్నేహితుడు ఆత్మహత్య చేసుకుని చనిపోయాడు. ఆ బాధను తట్టుకోలేక నేను కుంగిపోతున్న సమయంలో, నువ్వు నాకు మానసిక అండగా (Emotional Support) నిలిచావు. నా కన్నీళ్లు తుడుస్తూ, నీ భుజంపై నాకు ఓదార్పునిచ్చావు. నా జీవితంలో ఒక నిజమైన ఎమోషన్‌ను నేను ఫీల్ అయింది అప్పుడే. ఆ తర్వాత నీ పరిచయంతోనే నేను అసలైన ప్రపంచాన్ని చూశాను, జీవితం ఎంత హ్యాపీగా, జాలీగా ఉంటుందో తెలుసుకున్నాను.
+                        </p>
+                    </div>
+
+                    <!-- Chapter 3 -->
+                    <div class="p-5 rounded-2xl bg-white/5 border border-white/5 hover:border-pink-500/20 transition-colors">
+                        <span class="text-[10px] font-bold text-pink-400 uppercase tracking-widest block mb-2">అధ్యాయం 3: ఎడబాటు మరియు తిరిగి కలయిక (B.Tech రోజులు)</span>
+                        <p class="text-sm text-slate-200 leading-relaxed text-justify">
+                            కొన్ని పరిస్థితుల వల్ల మధ్యలో మన మధ్య కాస్త దూరం పెరిగింది, బ్రేక్ పడింది. కానీ విధి మనల్ని వదల్లేదు. నా బిటెక్ ఫస్ట్ ఇయర్‌లో మళ్లీ మనం కనెక్ట్ అయ్యాం. అప్పుడప్పుడు మెసేజ్‌లు, కాల్స్ మాట్లాడుకునేవాళ్ళం. కానీ ఆ కొద్దిసేపు నీతో మాట్లాడుతుంటే సమయమే తెలిసేది కాదు. మన ఇద్దరి ఆలోచనలు ఒకేలా ఉండేవి. అలా మన ప్రయాణం స్నేహంగా కొనసాగుతూ వచ్చింది.
+                        </p>
+                    </div>
+
+                    <!-- Chapter 4 -->
+                    <div class="p-5 rounded-2xl bg-white/5 border border-white/5 hover:border-pink-500/20 transition-colors">
+                        <span class="text-[10px] font-bold text-pink-400 uppercase tracking-widest block mb-2">అధ్యాయం 4: 2026 ఫిబ్రవరి 9 – నా జీవితం మారిన రోజు</span>
+                        <p class="text-sm text-slate-200 leading-relaxed text-justify">
+                            మన మధ్య గ్యాప్ వచ్చిన ఆ సమయంలో ఇద్దరం జీవితంలో ఎన్నో కష్టాలు, మానసిక వేదనలు (Trauma) అనుభవించాం. ఈ 2026 సంవత్సరంలో మనం కాల్స్‌లో మాట్లాడుకుంటున్నప్పుడు నాకు ఒకటి స్పష్టంగా అర్థమైంది.. మనమిద్దరం ఒక నిజమైన ప్రేమ కోసం, ఒక ఎమోషనల్ సపోర్ట్ కోసం తపిస్తున్నామని. ఎన్నో ఆలోచనల తర్వాత, ఫిబ్రవరి 9న నాకు ఒక్కటే అనిపించింది... "నువ్వే నా సోల్‌మేట్ (Soulmate)" అని! మన చుట్టూ ఎన్నో అడ్డంకులు, సమస్యలు ఉన్నాయని తెలిసినా.. ధైర్యం చేసి నిన్ను అడిగాను, "నాతో కలిసి ప్రయాణిస్తావా?" అని. నువ్వు ఏ శషభిషలు లేకుండా 'యెస్' చెప్పావు. ఆ క్షణం నా జీవితంలోనే అత్యంత సంతోషకరమైన క్షణం.
+                        </p>
+                    </div>
+
+                    <!-- Chapter 5 -->
+                    <div class="p-5 rounded-2xl bg-white/5 border border-white/5 hover:border-pink-500/20 transition-colors">
+                        <span class="text-[10px] font-bold text-pink-400 uppercase tracking-widest block mb-2">అధ్యాయం 5: మన బంధం – ప్రత్యేకమైనది</span>
+                        <p class="text-sm text-slate-200 leading-relaxed text-justify">
+                            ఒక్క నెలలోనే మనం ఎమోషనల్‌గా చాలా దగ్గరయ్యాం. మన ప్రేమ ప్రయాణం మొదలైంది. ఈ కొన్ని నెలల్లోనే మనం మన ఎమోషన్స్‌ని పూర్తిగా ఒకరికొకరు చూపించుకున్నాం. ఒకరికొకరు తోడుగా నిలిచాం, మోటివేట్ చేసుకున్నాం. మధ్యలో చిన్న చిన్న అపార్థాలు వచ్చినా, ఏ రోజూ ఒకరినొకరు వదిలేయాలని అనుకోలేదు. అదే మన బంధాన్ని ఇంత స్పెషల్ గా, అందంగా మార్చింది.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- LIVE AUDIO VISUALIZER & KARAOKE LYRICS -->
+            <section class="grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
+                <!-- Visualizer Deck -->
+                <div class="md:col-span-6 glass-card rounded-3xl p-6 flex flex-col justify-between border border-white/5 relative overflow-hidden">
+                    <h3 class="text-xs font-bold text-slate-400 tracking-wider uppercase mb-4"><i class="fas fa-music mr-1"></i> ఆడియో విజువలైజర్ & నెయాన్ వేవ్స్</h3>
+                    <div class="w-full h-24 mb-4 rounded-2xl overflow-hidden relative bg-black/40 border border-white/5">
+                        <canvas id="visualizerCanvas" class="absolute inset-0 w-full h-full"></canvas>
+                        <div id="visualizerHeart" class="absolute inset-y-0 inset-x-0 m-auto w-10 h-10 rounded-full bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-500 transition-all duration-300">
+                            <i class="fas fa-heart text-sm"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-center items-center my-3">
+                        <div id="spinningRecord" class="relative w-40 h-40 rounded-full bg-neutral-950 border-4 border-neutral-800 flex items-center justify-center shadow-xl">
+                            <div class="absolute inset-4 border border-neutral-800/10 rounded-full"></div>
+                            <div class="absolute inset-10 border border-neutral-800/10 rounded-full"></div>
+                            <div class="w-14 h-14 rounded-full overflow-hidden border-2 border-pink-500">
+                                <img id="recordLabelImage" src="1000102998.jpg" onerror="this.src='https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=500'" class="w-full h-full object-cover">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm font-extrabold text-white">కస్టమైజ్డ్ సాంగ్</p>
+                            <p id="trackStatusText" class="text-[11px] text-slate-400">ప్లే బటన్ ప్రెస్ చేయండి బంగారం</p>
+                        </div>
+                        <button onclick="toggleMusicPlayback()" id="mainPlayIcon" class="w-12 h-12 rounded-full bg-pink-500 text-white flex items-center justify-center text-lg shadow-xl hover:scale-105 active:scale-95 transition-all">
+                            <i class="fas fa-play ml-1"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Lyrics panel -->
+                <div class="md:col-span-6 glass-card rounded-3xl p-6 flex flex-col justify-between border border-white/5">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xs font-bold text-slate-400 tracking-wider"><i class="fas fa-align-center mr-1"></i> లైవ్ సింక్ లిరిక్స్</h3>
+                    </div>
+                    <div id="karaokeWindow" class="h-64 overflow-y-auto pr-2 space-y-6 scroll-smooth text-center md:text-left pt-6 pb-6">
+                        <p id="line-0" class="text-sm text-slate-400 font-semibold leading-relaxed transition-all duration-300">ఫేస్‌బుక్ గోడలపై మొదలైన పరిచయం,<br>నా నిశ్శబ్ద జగత్తులో తెచ్చెను ఒక ఉదయం.</p>
+                        <p id="line-1" class="text-sm text-slate-400 font-semibold leading-relaxed transition-all duration-300">తొమ్మిదో తరగతి ముగిసే ఆ రోజుల్లో,<br>nuvve నా తోడై నిలిచావు నా కళ్ళల్లో..</p>
+                        <p id="line-2" class="text-sm text-slate-400 font-semibold leading-relaxed transition-all duration-300">ఓ శ్రీవల్లి.. నా ప్రియమైన బంగారం....<br><span class="text-pink-500">నీ పరిచయమే మార్చింది నా లోకం !</span></p>
+                        <p id="line-3" class="text-sm text-slate-400 font-semibold leading-relaxed transition-all duration-300">లోకజ్ఞానం లేని ఆ చిన్న వయసులో,<br>పెద్ద గాయం మిగిలింది నా మనసులో.</p>
+                        <p id="line-4" class="text-sm text-slate-400 font-semibold leading-relaxed transition-all duration-300">నా ప్రాణ స్నేహితుడు నన్ను వీడిపోగా,<br>కన్నీటి సముద్రంలో నేను మునిగిపోగా..</p>
+                        <p id="line-5" class="text-sm text-slate-400 font-semibold leading-relaxed transition-all duration-300">నీ భుజమే నాకు ఓదార్పునిచ్చింది,<br>నిజమైన ఎమోషన్ అంటే ఏంటో చూపించింది.</p>
+                        <p id="line-6" class="text-sm text-slate-400 font-semibold leading
